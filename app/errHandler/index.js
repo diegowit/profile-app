@@ -7,5 +7,7 @@ const defaultErrHandler = (err, req, res, next) => {
     res.status(500).send(`Hey!! You caught the error 👍👍. Here's the details: ${err.stack} `);
   };
 
-  
+
   export default defaultErrHandler;
+
+  
