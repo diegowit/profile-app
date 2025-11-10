@@ -1,17 +1,22 @@
 variables:
    APP_NAME: 'profile-app'
-   DOCKER_HUB_USERNAME: 'doconnor' # Change to your Docker Hub username
+   DOCKER_HUB_USERNAME: 'dpabontorres' # Change to your Docker Hub username
 
 stages:
    - build
    - test
 
-build-and-publish:
-  image: docker:20.10.16
+build-and-publish::
+  image: docker:27.0.2-cli-alpine3.20
+  services:
+    - docker:27.0.2-dind-alpine3.20
   stage: build
   script:
-     - echo "Build stage execution"
-     - docker --version   # Just a test
+     - echo "Build stage execution."
+     - docker build -t ${DOCKER_HUB_USERNAME}/${APP_NAME} .
+     - docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_TOKEN}
+     - docker tag  ${DOCKER_HUB_USERNAME}/${APP_NAME}  ${DOCKER_HUB_USERNAME}/${APP_NAME}:${CI_COMMIT_SHORT_SHA} 
+     - docker push ${DOCKER_HUB_USERNAME}/${APP_NAME}:${CI_COMMIT_SHORT_SHA}
 
 base-test:
   stage: test
