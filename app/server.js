@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import cors from "cors";
 import path from "path";
@@ -5,6 +6,7 @@ import fs from "fs";
 import usersRouter from "./api/users/index.js";
 import defaultErrHandler from "./errHandler/index.js";
 import "./db/index.js";
+
 
 const app = express();
 const port = process.env.PORT;
